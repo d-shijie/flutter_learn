@@ -1,4 +1,4 @@
-import '../untils/http.dart';
+import '../utils/http.dart';
 
 var http = HttpUtils();
 

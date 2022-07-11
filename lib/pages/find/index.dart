@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_unnecessary_containers, avoid_print, unused_import, import_of_legacy_library_into_null_safe
+// ignore_for_file: avoid_unnecessary_containers, avoid_print, unused_import, import_of_legacy_library_into_null_safe, unnecessary_this
 
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -8,6 +8,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import '../drawer/index.dart';
 import '../../api/index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../utils/event_bus.dart';
 
 class FindPage extends StatefulWidget {
   FindPage({Key? key}) : super(key: key);
@@ -18,21 +19,38 @@ class FindPage extends StatefulWidget {
 
 class _FindPageState extends State<FindPage> {
   var keywords = TextEditingController();
-
+  var hintText = '';
+  var _bus;
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late SharedPreferences pref;
+  void busTest() {
+    // 发送事件
+    eventBus.fire(ThemeColor('blue'));
+    // 监听事件
+    _bus = eventBus.on<ThemeColor>().listen((event) => {
+          setState(() => {hintText = event.color})
+        });
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    busTest();
     _initPref();
     _prefs.then((SharedPreferences pref) => pref.setString('test', 'test'));
     var test = _prefs.then((SharedPreferences pref) => pref.getString('test'));
-    test.then((value) => print(value));
+    test.then((value) => {});
   }
 
   _initPref() async {
     pref = await _prefs;
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _bus.cancel();
   }
 
   @override
@@ -75,7 +93,7 @@ class _FindPageState extends State<FindPage> {
                       borderRadius: BorderRadius.circular(10),
                       borderSide:
                           BorderSide(width: 0, color: Colors.transparent)),
-                  hintText: '搜索',
+                  hintText: hintText,
                   prefixIcon: Icon(Icons.search),
                   hintStyle: TextStyle(color: Colors.grey, fontSize: 12),
                 ),

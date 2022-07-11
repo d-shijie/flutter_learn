@@ -6,6 +6,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import './state/index.dart';
 import './pages/not-found/index.dart';
 import './routes/index.dart';
+import './utils/event_bus.dart';
 
 void main(List<String> args) {
   runApp(
@@ -47,6 +48,12 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    // eventBus.fire(ThemeColor('blue'));
+    // eventBus.on<ThemeColor>().listen((event) {
+    //   if (mounted) {
+    //     print(event.color);
+    //   }
+    // });
   }
 
   @override

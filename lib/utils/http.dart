@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class HttpUtils {
-  static const String baseUrl = "http://192.168.8.252:3000";
+  static const String baseUrl = "http://10.17.56.177:3000";
   static Dio dio = Dio();
   // 基础配置
   HttpUtils() {
